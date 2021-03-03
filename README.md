@@ -2,4 +2,7 @@
 vue+flask+mongodb
 
 ./src  : vue  
-test.py: falsk
+test.py: falsk  
+  
+
+Project start instruction： npm run dev
