@@ -5,6 +5,6 @@ vue+flask+mongodb
 test.py: falsk  
   
 
-Project start instruction： npm install
-Project prod: npm install build
+Project start instruction： npm install  
+Project prod: npm install build  
 Project dev: npm install dev
