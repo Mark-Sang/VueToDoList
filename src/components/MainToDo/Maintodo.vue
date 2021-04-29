@@ -21,6 +21,9 @@
 <script>
   import ToDoItem from './coms/ToDoItem.vue'
 
+  var ip = returnCitySN['cip']
+  console.log(ip)
+
   export default {
     name: 'Maintodo',
     data() {
@@ -33,13 +36,19 @@
       ToDoItem,
     },
     created: function () {
-      this.$axios.get('/search').then((response) => (this.info = response.data))
+      //this.$axios.get('/search').then((response) => (this.info = response.data))
+      this.$axios
+        .post('/search', {
+          IP: ip,
+        })
+        .then((response) => (this.info = response.data))
     },
     methods: {
       addTodo() {
         if (this.content === '') return
         this.$axios
           .post('/add', {
+            IP: ip,
             PMcontent: this.content,
             PMflag: true,
             PMcompleted: '',
@@ -52,6 +61,7 @@
         console.log('mainToDo:' + id)
         this.$axios
           .post('/delete', {
+            IP: ip,
             _id: id,
           })
           .then((response) => (this.info = response.data))
@@ -60,6 +70,7 @@
         console.log('mainToDo:' + data)
         this.$axios
           .post('/change', {
+            IP: ip,
             _id: data._id,
             PMflag: data.PMflag,
             PMdatatime: data.PMdatatime,

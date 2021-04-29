@@ -1,7 +1,7 @@
 <template>
   <div class="todo-item">
-    <el-row :gutter="20">
-      <el-col :span="6"
+    <el-row :gutter="10">
+      <el-col :span="5"
         ><div class="grid-content bg-purple">
           <el-checkbox
             size="medium"
@@ -38,7 +38,7 @@
           >
           </el-date-picker></div
       ></el-col>
-      <el-col :span="6"
+      <el-col :span="5"
         ><div class="grid-content bg-purple">
           <el-button @click="delItem">删除</el-button>
         </div></el-col

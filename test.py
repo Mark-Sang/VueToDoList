@@ -11,15 +11,13 @@ from bson import json_util
 
 app = Flask(__name__)
 # app配置
-
 myclient = pymongo.MongoClient("mongodb://localhost:27017/")
-mydb = myclient["todos"]["todos"]
-
-
 
 @app.route('/search', methods=['GET','POST'])
 def search_records():
     dic = []
+    my_json = request.get_json()
+    mydb = myclient["todos"][my_json["IP"]]
     for i in mydb.find():
         dic.append(i)
     return json_util.dumps(dic)
@@ -28,6 +26,7 @@ def search_records():
 def add_records():
     dic = []
     my_json = request.get_json()
+    mydb = myclient["todos"][my_json["IP"]]
     mydb.insert_one(my_json)
     for i in mydb.find():
         dic.append(i)
@@ -37,6 +36,7 @@ def add_records():
 def delete_records():
     dic = []
     my_json = request.get_json()
+    mydb = myclient["todos"][my_json["IP"]]
     mydb.delete_one({"_id" : ObjectId(my_json["_id"])})
     for i in mydb.find():
         dic.append(i)
@@ -46,6 +46,7 @@ def delete_records():
 def change_records():
     dic = []
     my_json = request.get_json()
+    mydb = myclient["todos"][my_json["IP"]]
     myquery = { "_id":  ObjectId(my_json.pop("_id")) }
     newvalues = { "$set": my_json }
     mydb.update_one(myquery, newvalues)
@@ -54,4 +55,4 @@ def change_records():
     return json_util.dumps(dic)
 
 if __name__ == '__main__':
-    app.run(host="0.0.0.0")
+    app.run()
