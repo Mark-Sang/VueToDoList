@@ -1,5 +1,6 @@
 # VueToDoList
 vue+flask+mongodb
+cookie+session
 
 ./src  : vue  
 test.py: falsk  
