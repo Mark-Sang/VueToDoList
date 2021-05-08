@@ -1,6 +1,6 @@
 <template>
   <div class="main-todo">
-    <!-- el-input 要用 keyup.enter.native ，有坑-->
+    <!-- el-input 要用 keyup.enter.native-->
     <el-input
       placeholder="请输入内容"
       suffix-icon="el-icon-date"
@@ -21,34 +21,45 @@
 <script>
   import ToDoItem from './coms/ToDoItem.vue'
 
-  var ip = returnCitySN['cip']
-  console.log(ip)
-
   export default {
     name: 'Maintodo',
     data() {
       return {
         content: '',
         info: null,
+        ID: '',
       }
     },
     components: {
       ToDoItem,
     },
-    created: function () {
-      //this.$axios.get('/search').then((response) => (this.info = response.data))
-      this.$axios
-        .post('/search', {
-          IP: ip,
+    beforeMount: function () {
+      setTimeout(() => {
+        this.$axios.get('/GetID').then((response) => {
+          this.ID = response.data[0]._id.$oid
+          console.log('ID:' + this.ID)
+          this.$axios
+            .post('/search', {
+              ID: this.ID,
+            })
+            .then((response) => (this.info = response.data))
         })
-        .then((response) => (this.info = response.data))
+      }, 200)
+
+      // setTimeout(() => {
+      //   this.$axios
+      //     .post('/search', {
+      //       ID: this.ID,
+      //     })
+      //     .then((response) => (this.info = response.data))
+      // }, 500)
     },
     methods: {
       addTodo() {
         if (this.content === '') return
         this.$axios
           .post('/add', {
-            IP: ip,
+            ID: this.ID,
             PMcontent: this.content,
             PMflag: true,
             PMcompleted: '',
@@ -61,7 +72,7 @@
         console.log('mainToDo:' + id)
         this.$axios
           .post('/delete', {
-            IP: ip,
+            ID: this.ID,
             _id: id,
           })
           .then((response) => (this.info = response.data))
@@ -70,7 +81,7 @@
         console.log('mainToDo:' + data)
         this.$axios
           .post('/change', {
-            IP: ip,
+            ID: this.ID,
             _id: data._id,
             PMflag: data.PMflag,
             PMdatatime: data.PMdatatime,
